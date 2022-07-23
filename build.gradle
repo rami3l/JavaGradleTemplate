@@ -1,0 +1,75 @@
+plugins {
+  id 'application'
+  id 'eclipse'
+
+  id 'io.freefair.lombok' version '6.3.0'
+  id 'com.diffplug.spotless' version '6.8.0'
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation 'com.google.guava:guava:31.1-jre'
+  testImplementation 'org.junit.jupiter:junit-jupiter:5.9.0-RC1'
+}
+
+spotless {
+  java {
+    importOrder()
+    removeUnusedImports()
+    eclipse().configFile('.settings/org.eclipse.jdt.core.prefs')
+
+    // Eclipse formatter puts excess whitespace after lambda blocks
+    // funcThatTakesLambdas(x -> {} , y -> {} ) // what Eclipse does
+    // funcThatTakesLambdas(x -> {}, y -> {})   // what I wish Eclipse did
+    custom 'Lambda fix', { it.replace('} )', '})').replace('} ,', '},') }
+  }
+  groovyGradle {
+    target '*.gradle'
+    greclipse().configFile('.settings/org.eclipse.jdt.core.prefs')
+  }
+}
+
+eclipse.jdt.file.withProperties { props ->
+  // Enable support for preview features.
+  props['org.eclipse.jdt.core.compiler.problem.enablePreviewFeatures']= 'enabled'
+  props['org.eclipse.jdt.core.compiler.problem.reportPreviewFeatures']= 'ignore'
+
+  // Enable annotation analysis.
+  props['org.eclipse.jdt.core.compiler.annotation.missingNonNullByDefaultAnnotation'] = 'info'
+  props['org.eclipse.jdt.core.compiler.annotation.nonnull.secondary'] = 'javax.annotation.Nonnull,org.jetbrains.annotations.NotNull'
+  props['org.eclipse.jdt.core.compiler.annotation.nullable.secondary'] = 'javax.annotation.Nullable,org.jetbrains.annotations.Nullable'
+  props['org.eclipse.jdt.core.compiler.annotation.nullanalysis'] = 'enabled'
+
+  // Customize formatting options.
+  props['org.eclipse.jdt.core.formatter.tabulation.char'] = 'space'
+  props['org.eclipse.jdt.core.formatter.tabulation.size'] = '2'
+  props['org.eclipse.jdt.core.formatter.indentation.size'] = '2'
+  props['org.eclipse.jdt.core.formatter.indent_empty_lines'] = 'false'
+
+  props['groovy.formatter.remove.unnecessary.semicolons'] = 'true'
+}
+
+application {
+  // Define the main class for the application.
+  mainClass = 'JavaGradleTemplate.App'
+}
+
+compileJava {
+  options.compilerArgs += ['--enable-preview']
+}
+
+compileTestJava {
+  options.compilerArgs += ['--enable-preview']
+}
+
+spotlessApply {
+  dependsOn 'eclipse'
+}
+
+test {
+  jvmArgs '--enable-preview'
+  useJUnitPlatform()
+}
