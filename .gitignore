@@ -31,10 +31,10 @@ hs_err_pid*
 
 # VSCode
 
-.vscode
+.vscode/**
+!.vscode/settings.json
 .classpath
 .project
-.settings/
 
 # Eclipse
 
@@ -46,7 +46,8 @@ tmp/
 *.swp
 *~.nib
 local.properties
-.settings/
+.settings/**
+!.settings/org.eclipse.jdt.core.prefs
 .loadpath
 .recommenders
 
@@ -125,8 +126,8 @@ buildNumber.properties
 # Gradle
 
 .gradle
-/app/build/
-/app/bin/
+build/
+bin/
 
 # Ignore Gradle GUI config
 gradle-app.setting
