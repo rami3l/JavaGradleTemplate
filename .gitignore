@@ -35,6 +35,7 @@ hs_err_pid*
 !.vscode/settings.json
 .classpath
 .project
+.metals/**
 
 # Eclipse
 
