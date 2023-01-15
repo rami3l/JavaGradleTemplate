@@ -1,9 +1,14 @@
 plugins {
-  id 'application'
-  id 'eclipse'
+  id "application"
+  id "eclipse"
 
-  id 'io.freefair.lombok' version '6.3.0'
-  id 'com.diffplug.spotless' version '6.8.0'
+  id "net.ltgt.errorprone" version "3.0.1"
+  id "net.ltgt.nullaway" version "1.5.0"
+
+  id "se.patrikerdes.use-latest-versions" version "0.2.18"
+  id "com.github.ben-manes.versions" version "0.44.0"
+
+  id "com.diffplug.spotless" version "6.13.0"
 }
 
 repositories {
@@ -11,8 +16,14 @@ repositories {
 }
 
 dependencies {
-  implementation 'com.google.guava:guava:31.1-jre'
-  testImplementation 'org.junit.jupiter:junit-jupiter:5.9.0-RC1'
+  implementation "com.google.guava:guava:31.1-jre"
+  testImplementation "org.junit.jupiter:junit-jupiter:5.9.2"
+  errorprone "com.google.errorprone:error_prone_core:2.18.0"
+  errorprone "com.uber.nullaway:nullaway:0.10.8"
+}
+
+nullaway {
+  annotatedPackages.add("JavaGradleTemplate")
 }
 
 spotless {
@@ -20,24 +31,24 @@ spotless {
     googleJavaFormat()
   }
   groovyGradle {
-    target '*.gradle'
+    target "*.gradle"
   }
 }
 
 application {
   // Define the main class for the application.
-  mainClass = 'JavaGradleTemplate.App'
+  mainClass = "JavaGradleTemplate.App"
 }
 
 compileJava {
-  options.compilerArgs += ['--enable-preview']
+  options.compilerArgs += ["--enable-preview"]
 }
 
 compileTestJava {
-  options.compilerArgs += ['--enable-preview']
+  options.compilerArgs += ["--enable-preview"]
 }
 
 test {
-  jvmArgs '--enable-preview'
+  jvmArgs "--enable-preview"
   useJUnitPlatform()
 }

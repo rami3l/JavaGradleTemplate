@@ -1,9 +1,7 @@
 package JavaGradleTemplate;
 
-import javax.annotation.Nonnull;
-
 public class App {
-  public @Nonnull String getGreeting() {
+  public String getGreeting() {
     return "Greetings!";
   }
 
