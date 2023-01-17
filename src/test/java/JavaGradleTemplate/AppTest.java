@@ -1,4 +1,4 @@
-package JavaGradleTemplate;
+package io.github.rami3l.template.java;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
